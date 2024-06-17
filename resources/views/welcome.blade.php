@@ -414,7 +414,7 @@
     <div class="flex justify-center pt-8 sm:justify-start sm:pt-0">
         <h1 class="text-4xl">Families</h1>
     </div>
-    <div class="welcome__info flex items-center space-x-4">
+    <div class="welcome__info flex flex-col sm:flex-row items-center space-y-4 sm:space-y-0 sm:space-x-4">
         <img src="/famillie.jpg" alt="Family" class="h-40 w-40 rounded-xl shadow-lg">
         <p class="text-lg">
             The following map shows the language families of Europe (distinguished by colour) and languages within those families. Note that the terms “language” and “dialect” are not mutually exclusive, and some of the languages shown in the map may be considered dialects of others.

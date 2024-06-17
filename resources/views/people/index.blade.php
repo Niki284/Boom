@@ -63,7 +63,7 @@
             left: 50%;
             border-left: 1px solid #ccc;
             width: 0;
-            height: 40px;
+            height: 20px;
         }
 
         .tree li a {
@@ -104,16 +104,19 @@
 
     <div class="tree">
 
-    <form method="GET" action="{{ route('people.index') }}">
+    <!-- <form method="GET" action="{{ route('people.index') }}">
         <div class="form-group">
             <input type="text" name="search" class="form-control" placeholder="Zoek op naam of achternaam" value="{{ request('search') }}">
         </div>
         <button type="submit" class="btn btn-primary">Zoeken</button>
-    </form>
+    </form> -->
+
         {{ View::make('people.people', ['people' => $people]) }}
     </div>
     <div class="flex justify-end">
         <a class="p-2 m-4 rounded border-solid border-2 border-indigo-600 hover:bg-blue-400 hover:text-white" href="{{ route('people.create') }}">Create people</a>
     </div>
+
+    
 </div>
 @endsection

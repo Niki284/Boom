@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\PeopleController;
 use App\Http\Controllers\PeopleGalleryController;
 use App\Http\Controllers\PeopleHistoryController;
@@ -26,13 +27,18 @@ Route::get('/', function () {
         'people' => People::all()
     ]);
 });
-Route::get('/map', [PeopleSearchController::class, 'index'])->name('map');
-Route::get('/search', [PeopleSearchController::class, 'search'])->name('search');
+
+// Route::get('/map', [PeopleSearchController::class, 'search'])->name('map');
+// Route::get('/search', [PeopleSearchController::class, 'search'])->name('search');
 
 
-Route::get('/dashboard', function () {
-    return view('dashboard');
-})->middleware(['auth', 'verified'])->name('dashboard');
+// Route::get('/dashboard', function () {
+//     return view('dashboard');
+// })->middleware(['auth', 'verified'])->name('dashboard');
+
+Route::get('/dashboard', [DashboardController::class, 'index'])
+    ->middleware(['auth', 'verified'])
+    ->name('dashboard');
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
@@ -44,7 +50,10 @@ Route::middleware('auth')->group(function () {
     Route::get('/people', [PeopleController::class, 'index'])->name('people.index');
     // Route::get('/people/create', [PeopleController::class, 'create'])->name('people.create')->middleware('check.beheerder');
     // Route::post('/people', [PeopleController::class, 'store'])->name('people.store')->middleware('check.beheerder');
-
+    // Search on map
+    Route::get('/search', [PeopleSearchController::class, 'search'])->name('search');
+    Route::get('/map', [PeopleSearchController::class, 'map'])->name('map');
+    
     Route::get('/people/create', [PeopleController::class, 'create'])->name('people.create');
     Route::post('/people', [PeopleController::class, 'store'])->name('people.store');
     Route::get('/people/{people}', [PeopleController::class, 'show'])->name('people.show');
@@ -60,11 +69,11 @@ Route::middleware('auth')->group(function () {
     Route::post('/people/{id}/add-relation', [PeopleController::class, 'storeRelation'])->name('people_relation.store');
 
     // Routes voor huwelijk
-Route::get('/people/{id}/add-marriage', [PeopleController::class, 'createMarriage'])->name('people_marriage.create');
-Route::post('/people/{id}/add-marriage', [PeopleController::class, 'storeMarriage'])->name('people_marriage.store');
+    Route::get('/people/{id}/add-marriage', [PeopleController::class, 'createMarriage'])->name('people_marriage.create');
+    Route::post('/people/{id}/add-marriage', [PeopleController::class, 'storeMarriage'])->name('people_marriage.store');
 
 
-    
+    // history
     Route::resource('people_history', PeopleHistoryController::class)->only(['index', 'create', 'store', 'destroy']);
     Route::get('/people/{people}/history', [PeopleHistoryController::class, 'history'])->name('people.history');
     Route::get('/people/{people}/history/create', [PeopleHistoryController::class, 'create'])->name('people.history.create');

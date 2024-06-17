@@ -71,3 +71,11 @@ The Laravel framework is open-sourced software licensed under the [MIT license](
  https://github.com/Niki284/Stamboom
 
  Latste https://github.com/Niki284/Boom
+
+
+ Email for login
+ niki@mail.com
+
+ amber@mail.ru
+
+ marl@mail.com

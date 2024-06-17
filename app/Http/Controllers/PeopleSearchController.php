@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\People;
+use GuzzleHttp\Client;
 use Illuminate\Http\Request;
 
 class PeopleSearchController extends Controller
@@ -12,93 +13,60 @@ class PeopleSearchController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function map()
     {
-        //
-        // $people = People::all();
-    
-        
-        $people = People::all();
-        $locations = $people->map(function ($people) {
-                return $people->city . ', ' . $people->country;
-            });
-
-        // $locations = $people->map(function ($people) {
-        //     return [
-        //         'lat' => $this->getLatitude($people->birth_place),
-        //         'lng' => $this->getLongitude($people->birth_place),
-        //         'name' => $people->first_name . ' ' . $people->last_name,
-        //     ];
-        // });
-
-        
-        
-        return view('map', ['locations' => $locations]);
-        //return view('people.search', compact('people', 'locations'));
-    }
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
+        return view('map');
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
+    public function search(Request $request)
     {
-        //
-    }
+        $lastname = $request->query('lastname');
+        $city = $request->query('city');
+        $country = $request->query('country');
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        //
-    }
+        if (!$lastname || !$city || !$country) {
+            return response()->json(['error' => 'Achternaam, stad en land zijn verplicht'], 400);
+        }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
-    }
+        // Zoek mensen in de database op achternaam, stad en land
+        $users = People::where('lastname', $lastname)
+                     ->where('city', $city)
+                     ->where('country', $country)
+                     ->get();
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, $id)
-    {
-        //
-    }
+        if ($users->isEmpty()) {
+            return response()->json(['message' => 'Geen gebruikers gevonden'], 404);
+        }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($id)
-    {
-        //
+        // Mapbox API sleutel
+        $mapboxApiKey = env('MAPBOX_API_KEY');
+
+        $client = new Client();
+
+        $locations = $users->map(function($user) use ($client, $city, $country, $mapboxApiKey) {
+            $response = $client->get("https://api.mapbox.com/geocoding/v5/mapbox.places/{$city},{$country}.json", [
+                'query' => [
+                    'access_token' => $mapboxApiKey,
+                    'limit' => 1
+                ]
+            ]);
+
+            $data = json_decode($response->getBody(), true);
+
+            if (empty($data['features'])) {
+                return null;
+            }
+
+            $coordinates = $data['features'][0]['center'];
+            return [
+                'user' => $user,
+                'location' => [
+                    'longitude' => $coordinates[0],
+                    'latitude' => $coordinates[1]
+                ]
+            ];
+        })->filter(); // Filter resultaten zonder locatie
+
+        return response()->json($locations);
     }
 }

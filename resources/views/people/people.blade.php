@@ -8,7 +8,14 @@
                 <h1 class="font-sans text-lg">
                     {{ $member->name }} {{ $member->last_name }}
                 </h1>
-                <p>Birth Date: {{ $member->birth_date }}</p>
+                <p class="flex flex-col">
+                    <span>
+                        Birth Date: {{ $member->birth_date }} 
+                    </span> 
+                    <span>
+                        Death Date: {{ $member->death_date }}
+                    </span>
+                </p>
             </a>
             <?php $marriages = $member->marriages; ?>
             @if ($marriages->count())

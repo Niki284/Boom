@@ -43,11 +43,11 @@
         </div>
 
         <div class="mb-4">
-            <label for=" death_date"class="block text-gray-700 font-medium">Birth Date</label>
+            <label for=" death_date"class="block text-gray-700 font-medium">Death Date</label>
             <input type="date"class="w-full p-2 border border-gray-300 rounded mt-1" id=" death_date" name=" death_date" placeholder=" death_date"require>
         </div>
         <div class="mb-4">
-            <label for="death_place"class="block text-gray-700 font-medium">Birth Place</label>
+            <label for="death_place"class="block text-gray-700 font-medium">Death Place</label>
             <input type="text"class="w-full p-2 border border-gray-300 rounded mt-1" id="death_place" name="death_place" placeholder="death_place"require>
         </div>
 
@@ -58,16 +58,6 @@
             </select>
         </div>
 
-        
-
-        <div class="mb-4">
-            <label for="email"class="block text-gray-700 font-medium">Email</label>
-            <input type="email"class="w-full p-2 border border-gray-300 rounded mt-1" id="email" name="email" placeholder="email"require>
-        </div>
-        <div class="mb-4">
-            <label for="phone"class="block text-gray-700 font-medium">Phone</label>
-            <input type="text"class="w-full p-2 border border-gray-300 rounded mt-1" id="phone" name="phone" placeholder="phone"require>
-        </div>
         <div class="mb-4">
             <label for="city"class="block text-gray-700 font-medium">City</label>
             <input type="text"class="w-full p-2 border border-gray-300 rounded mt-1"id="city" name="city" placeholder="city"require>
@@ -75,10 +65,6 @@
         <div class="mb-4">
             <label for="country"class="block text-gray-700 font-medium">Contry</label>
             <input type="text" class="w-full p-2 border border-gray-300 rounded mt-1"id="country" name="country" placeholder="country"require>
-        </div>
-        <div class="mb-4">
-            <label for="postal_code"class="block text-gray-700 font-medium">Postal code </label>
-            <input type="text"class="w-full p-2 border border-gray-300 rounded mt-1" id="postal_code" name="postal_code" placeholder="postal code"require>
         </div>
 
         <button type="submit" class="w-full bg-blue-500 text-white p-2 rounded mt-4">Create</button>

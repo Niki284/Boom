@@ -17,11 +17,8 @@ class People extends Model
         'death_date',
         'death_place',
         'gender',
-        'address',
         'city',
         'country',
-        'postal_code',
-        'neighborhood',
         'beheerder_id'
     ];
     public function parents()

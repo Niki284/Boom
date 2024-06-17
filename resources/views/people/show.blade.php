@@ -22,7 +22,7 @@
                     Country:
                     {{ $people->country }},
                     {{ $people->city }},
-                    {{ $people->address }},
+                    {{ $people->address }}
                 </span>
             </li>
             <li>
@@ -107,6 +107,7 @@
             <div class="flex justify-end py-4">
                 <a href="{{ route('people.gallery.create', ['people' => $people->id]) }}" class="bg-blue-500 text-white p-4 rounded mt-4 hover:bg-blue-400 hover:text-white">Create Gallery</a>
             </div>
+
         </div>
     </div>
 
